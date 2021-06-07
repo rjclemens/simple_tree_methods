@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include "treetest.h"
+#include "queue.h"
 
 
 void tree_init(tree_t* t1){
@@ -11,11 +12,13 @@ void tree_init(tree_t* t1){
 
 node_t* node_init(int val){
 	node_t* n1 = malloc(sizeof(node_t));
+	
 	n1->value = val;
+
 	n1->leftNode = NULL;
 	n1->rightNode = NULL;
 
-return n1;
+	return n1;
 }
 
 int add(node_t* n, node_t** tn){
@@ -56,6 +59,35 @@ void print_tree(node_t* tn){
 	print_tree(tn->rightNode);
 }
 
+void bfs(node_t* tn){
+	queue_t* q = queue_init(30);
+	
+	q_node_t* tree_head = q_node_init(tn);
+	enqueue(q, tree_head); //put root into queue
+
+	while(!isEmpty(q)){
+		q_node_t* dqd = dequeue(q);
+
+		if(!dqd->visited){
+			dqd->visited = 1; //mark node as visited
+
+			//queue its children; cast void* to node_t*
+			q_node_t* left = q_node_init(((node_t*) dqd->data)->leftNode);
+			q_node_t* right = q_node_init(((node_t*) dqd->data)->rightNode);
+
+			enqueue(q, left);
+			enqueue(q, right);
+
+			//prints queue node's value in tree
+			printf("bfs--%d\n", ((node_t*) dqd->data)->value);
+		}
+		
+		free(dqd);
+		
+	}
+
+}
+
 int main(){
 	tree_t t1;
 	tree_init(&t1);
@@ -84,7 +116,7 @@ int main(){
 	printf("----------%d\n", t2.count);
 	free_tree(&(t2.root));
 
-
+	bfs(t2.root);
 }
 
 

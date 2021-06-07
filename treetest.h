@@ -1,5 +1,5 @@
-#ifndef penisland
-#define penisland
+#ifndef PEN_ISLAND
+#define PEN_ISLAND
 
 typedef struct node{
         int value;
@@ -18,6 +18,6 @@ node_t* node_init(int val);
 void tree_init(tree_t* t1);
 int pop_random(node_t** tn, int num);
 void free_tree(node_t** tn);
-
+void bfs(node_t* tn);
 
 #endif
