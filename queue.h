@@ -16,16 +16,17 @@ typedef struct queue{
 	q_node_t* rear;
 
 	int count;
-	int cap; 
 }queue_t;
 
 q_node_t* q_node_init(void* data);
-queue_t* queue_init(int len);
+void queue_init(queue_t* q);
 
 int isEmpty(queue_t* q);
-int isFull(queue_t* q);
 
 q_node_t* dequeue(queue_t* q);
 void enqueue(queue_t* q, q_node_t* n);
+
+void free_queue(queue_t* q);
+void print_queue(queue_t* q);
 
 #endif

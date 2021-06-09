@@ -14,6 +14,7 @@ node_t* node_init(int val){
 	node_t* n1 = malloc(sizeof(node_t));
 	
 	n1->value = val;
+	n1->visited = 0;
 
 	n1->leftNode = NULL;
 	n1->rightNode = NULL;
@@ -60,7 +61,10 @@ void print_tree(node_t* tn){
 }
 
 void bfs(node_t* tn){
-	queue_t* q = queue_init(30);
+	queue_t qnp;
+	queue_init(&qnp);
+
+	queue_t* q = &qnp;
 	
 	q_node_t* tree_head = q_node_init(tn);
 	enqueue(q, tree_head); //put root into queue
@@ -68,15 +72,24 @@ void bfs(node_t* tn){
 	while(!isEmpty(q)){
 		q_node_t* dqd = dequeue(q);
 
-		if(!dqd->visited){
-			dqd->visited = 1; //mark node as visited
+		if(!((node_t*) dqd->data)->visited){
+			((node_t*) dqd->data)->visited = 1; //visit the node
 
 			//queue its children; cast void* to node_t*
-			q_node_t* left = q_node_init(((node_t*) dqd->data)->leftNode);
-			q_node_t* right = q_node_init(((node_t*) dqd->data)->rightNode);
+			
+			node_t* leftN = ((node_t*) dqd->data)->leftNode;
+			node_t* rightN = ((node_t*) dqd->data)->rightNode;
 
-			enqueue(q, left);
-			enqueue(q, right);
+			if(leftN != NULL){
+				q_node_t* left = q_node_init(leftN);
+				enqueue(q, left);
+			}
+
+			if(rightN != NULL){	
+				q_node_t* right = q_node_init(rightN);
+				enqueue(q, right);
+			}
+
 
 			//prints queue node's value in tree
 			printf("bfs--%d\n", ((node_t*) dqd->data)->value);
@@ -88,18 +101,16 @@ void bfs(node_t* tn){
 
 }
 
+
 int main(){
+	/*
 	tree_t t1;
 	tree_init(&t1);
-	
-	tree_t t2;
-	tree_init(&t2);
 
 	node_t* n1 = node_init(5);
 
 	node_t* n2 = node_init(7);
 	
-
 	t1.count += add(n1, &(t1.root));
 	t1.count += add(n2, &(t1.root));
 
@@ -109,15 +120,19 @@ int main(){
 	free(n1);
 	free(n2);
 
-
+	*/
+	
+	tree_t t2;
+        tree_init(&t2);
 
 	t2.count = pop_random(&(t2.root), 15);
 	print_tree(t2.root);
 	printf("----------%d\n", t2.count);
-	free_tree(&(t2.root));
+	//free_tree(&(t2.root));
 
 	bfs(t2.root);
 }
+
 
 
 

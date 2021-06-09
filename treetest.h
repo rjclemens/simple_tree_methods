@@ -3,6 +3,8 @@
 
 typedef struct node{
         int value;
+	int visited;
+
         struct node* leftNode;
         struct node* rightNode;
 } node_t;
