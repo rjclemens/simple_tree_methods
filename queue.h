@@ -24,9 +24,10 @@ void queue_init(queue_t* q);
 int isEmpty(queue_t* q);
 
 q_node_t* dequeue(queue_t* q);
+q_node_t* stack_dequeue(queue_t* q);
 void enqueue(queue_t* q, q_node_t* n);
 
 void free_queue(queue_t* q);
-void print_queue(queue_t* q);
+void print_queue(queue_t q);
 
 #endif

@@ -3,7 +3,7 @@
 
 typedef struct node{
         int value;
-	int visited;
+	int number;
 
         struct node* leftNode;
         struct node* rightNode;
@@ -14,12 +14,13 @@ typedef struct tree{
         int count;
 } tree_t;
 
-int add(node_t* n, node_t** tn);
+void add(node_t* n, node_t** tn, tree_t* t);
 void print_tree(node_t* tn);
 node_t* node_init(int val);
 void tree_init(tree_t* t1);
-int pop_random(node_t** tn, int num);
+void pop_random(node_t** tn, tree_t* t, int num);
 void free_tree(node_t** tn);
-void bfs(node_t* tn);
+void bfs(node_t* tn, int count);
+void dfs(node_t* tn, int count);
 
 #endif

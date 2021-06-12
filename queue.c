@@ -27,6 +27,8 @@ int isEmpty(queue_t* q){
 
 
 void enqueue(queue_t* q, q_node_t* qn){
+	if(qn == NULL){return;}
+	
 	if(isEmpty(q)){
 		q->front = qn;
 		q->rear = qn;
@@ -67,6 +69,26 @@ q_node_t* dequeue(queue_t* q){
 	
 }
 
+q_node_t* stack_dequeue(queue_t* q){
+	if(isEmpty(q)){return NULL;}
+
+	q_node_t* rear = q->rear;
+	
+	if(rear->prev == NULL){
+		q->front = NULL;
+		q->rear = NULL;
+		q->count = 0;
+		return rear;
+	}
+	
+	q->rear = rear->prev; //reassign rear of queue
+	q->rear->next = NULL;
+
+	rear->prev = NULL; 
+	return rear;
+
+}
+
 void free_queue(queue_t* q){
 	while(!isEmpty(q)){
 		q_node_t* qn = dequeue(q);
@@ -74,12 +96,13 @@ void free_queue(queue_t* q){
 	}
 }
 
-void print_queue(queue_t* q){
-	while(!isEmpty(q)){
-		q_node_t* qn = dequeue(q);
+void print_queue(queue_t q){ //make a copy of queue
+	while(!isEmpty(&q)){
+		q_node_t* qn = dequeue(&q);
 		printf("%d\n", *((int*) qn->data));
 	}
 }
+
 
 /*
 int main(){
@@ -89,13 +112,37 @@ int main(){
 	int a1 = 5;
 	q_node_t* qn1 = q_node_init(&a1);
 
+	int a2 = 7;
+        q_node_t* qn2 = q_node_init(&a2);
+
 	enqueue(&q, qn1);
-	print_queue(&q);
+	//print_queue(&q);
 
 	dequeue(&q);
-	print_queue(&q);
+	//print_queue(&q);
 
+	//free(qn1);
+
+	queue_t q1;
+	queue_init(&q1);
+	
+	enqueue(&q1, qn1);
+	enqueue(&q1, qn2);
+	print_queue(q1); //pass by value
+	print_queue(q1);
+
+	printf("-------%d\n", 9399);
+
+	//stack_dequeue(&q1);
+	
+	print_queue(q1);
+
+	printf("-------%d\n", 9399);
+
+	print_queue(q1);
+	
 	free(qn1);
+	free(qn2);
 }
 */
 
